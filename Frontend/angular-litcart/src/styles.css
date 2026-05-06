@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  color-scheme: light;
+  font-family: 'Outfit', sans-serif;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(125, 211, 252, 0.32), transparent 24%),
+    radial-gradient(circle at 86% 8%, rgba(244, 114, 182, 0.22), transparent 23%),
+    radial-gradient(circle at 72% 78%, rgba(167, 243, 208, 0.26), transparent 26%),
+    linear-gradient(135deg, #eef4ff 0%, #f7f0ff 48%, #fff8ec 100%);
+  color: #1c2036;
+  --font-ui: 'Outfit', sans-serif;
+  --font-display: 'Cormorant Garamond', serif;
+  --glass-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.24));
+  --glass-surface-strong: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.34));
+  --glass-surface-dark: linear-gradient(135deg, rgba(31, 41, 72, 0.72), rgba(38, 48, 82, 0.42));
+  --glass-field-bg: rgba(255, 255, 255, 0.38);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.44);
+  --glass-inset-border: 1px solid rgba(255, 255, 255, 0.34);
+  --glass-shadow: 0 22px 60px rgba(42, 48, 80, 0.16);
+  --glass-button-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.48), rgba(255, 255, 255, 0.2));
+  --glass-button-bg-strong: linear-gradient(135deg, rgba(243, 207, 122, 0.48), rgba(255, 255, 255, 0.26));
+  --glass-button-border: 1px solid rgba(255, 255, 255, 0.46);
+  --glass-button-shadow: 0 14px 30px rgba(42, 48, 80, 0.14);
+  --glass-button-text: #162123;
+  --glass-button-blur: blur(18px) saturate(145%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(125, 211, 252, 0.32), transparent 24%),
+    radial-gradient(circle at 86% 8%, rgba(244, 114, 182, 0.22), transparent 23%),
+    radial-gradient(circle at 72% 78%, rgba(167, 243, 208, 0.26), transparent 26%),
+    linear-gradient(135deg, #eef4ff 0%, #f7f0ff 48%, #fff8ec 100%);
+  background-attachment: fixed;
+  color: #1c2036;
+  font-family: var(--font-ui);
+}
+
+img {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}

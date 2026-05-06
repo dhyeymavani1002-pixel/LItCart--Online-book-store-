@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LitCart — Your Literary Destination</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-logo" onclick="showPage('home')">
+    <div class="nav-logo-icon">📚</div>
+    <div class="nav-logo-text">Lit<span>Cart</span></div>
+  </div>
+  <div class="nav-links">
+    <a onclick="showPage('home')">Home</a>
+    <a onclick="showPage('listing')">Browse Books</a>
+    <a onclick="showPage('orders')">Orders</a>
+    <a onclick="showPage('home')">Deals</a>
+    <a onclick="showPage('home')">About</a>
+  </div>
+  <div class="nav-right">
+    <div class="search-bar">
+      <button onclick="doSearch()">🔍</button>
+      <input type="text" id="searchInput" placeholder="Search books, authors..." onkeydown="handleSearch(event)" oninput="liveSearch(this.value)">
+    </div>
+    <button class="cart-btn" onclick="showPage('cart')">
+      🛒 Cart <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <button class="profile-nav-btn" onclick="showPage('profile')" title="My Profile">👤</button>
+  </div>
+</nav>
+
+<!-- ============ HOMEPAGE ============ -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content fade-in-up">
+      <div class="hero-badge">📚 New Arrivals Every Week</div>
+      <h1>Discover Your Next <em>Great Read</em></h1>
+      <p>Explore thousands of handpicked books across every genre. From timeless classics to contemporary bestsellers — your next adventure begins here.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('listing')">🔍 Browse Collection</button>
+        <button class="btn-secondary" onclick="showPage('listing')">View Bestsellers →</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">50K+</div><div class="stat-label">Books</div></div>
+      <div class="stat"><div class="stat-num">120+</div><div class="stat-label">Genres</div></div>
+      <div class="stat"><div class="stat-num">2M+</div><div class="stat-label">Readers</div></div>
+    </div>
+  </section>
+
+  <div class="categories-strip">
+    <div class="cat-label">Categories</div>
+    <div class="cat-pills">
+      <div class="cat-pill active" onclick="filterCategory(this,'all');showPage('listing')">All Books</div>
+      <div class="cat-pill" onclick="filterCategory(this,'fiction');showPage('listing')">📖 Fiction</div>
+      <div class="cat-pill" onclick="filterCategory(this,'non-fiction');showPage('listing')">📰 Non-Fiction</div>
+      <div class="cat-pill" onclick="filterCategory(this,'sci-fi');showPage('listing')">🚀 Sci-Fi</div>
+      <div class="cat-pill" onclick="filterCategory(this,'mystery');showPage('listing')">🔎 Mystery</div>
+      <div class="cat-pill" onclick="filterCategory(this,'romance');showPage('listing')">💝 Romance</div>
+      <div class="cat-pill" onclick="filterCategory(this,'self-help');showPage('listing')">🌱 Self-Help</div>
+      <div class="cat-pill" onclick="filterCategory(this,'history');showPage('listing')">🏛️ History</div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Featured Books</div>
+        <div class="section-subtitle">Editor's picks this week</div>
+      </div>
+      <a class="see-all" onclick="showPage('listing')">View All →</a>
+    </div>
+    <div class="books-grid" id="featuredBooks"></div>
+  </section>
+
+  <div class="promo-banner">
+    <div class="promo-text">
+      <div class="promo-tag">🎉 Limited Time Offer</div>
+      <div class="promo-title">Summer Reading Sale</div>
+      <p class="promo-desc">Get incredible deals on our most beloved titles. The perfect time to stock up your reading list for the season.</p>
+    </div>
+    <div class="promo-action">
+      <div class="promo-discount">30%</div>
+      <div class="promo-off">off on 500+ titles</div>
+      <button class="btn-primary" onclick="showPage('listing')">Shop the Sale →</button>
+    </div>
+  </div>
+
+  <section class="section" style="background: var(--warm-white);">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Bestsellers</div>
+        <div class="section-subtitle">Most loved by our community</div>
+      </div>
+      <a class="see-all" onclick="showPage('listing')">View All →</a>
+    </div>
+    <div class="books-grid" id="bestsellersGrid"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-title">What Readers Say</div>
+        <div class="section-subtitle">Stories from our community</div>
+      </div>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"LitCart completely transformed my reading habit. The curation is impeccable — every recommendation has been a gem. It feels like having a brilliant bookish friend."</p>
+        <div class="testimonial-author"><div class="author-avatar">P</div><div><div class="author-name">Priya Sharma</div><div class="author-role">Avid Reader · Mumbai</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"The fastest delivery I've experienced and the packaging is gorgeous. My books always arrive in perfect condition. LitCart is the only bookstore I need."</p>
+        <div class="testimonial-author"><div class="author-avatar">R</div><div><div class="author-name">Rahul Desai</div><div class="author-role">Book Collector · Surat</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★☆</div>
+        <p class="testimonial-text">"The academic section is fantastic for students. Found all my reference books in one place with great discounts. The search and filter system is super intuitive!"</p>
+        <div class="testimonial-author"><div class="author-avatar">A</div><div><div class="author-name">Anjali Mehta</div><div class="author-role">Student · Ahmedabad</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-brand-logo">
+          <div class="footer-logo-icon">📚</div>
+          <div class="footer-logo-name">Lit<span>Cart</span></div>
+        </div>
+        <p>Your ultimate destination for books of every kind. Curated collections, unbeatable prices, and a community of passionate readers.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a onclick="showPage('listing')">All Books</a>
+        <a onclick="filterCategory(null,'fiction');showPage('listing')">Fiction</a>
+        <a onclick="filterCategory(null,'non-fiction');showPage('listing')">Non-Fiction</a>
+        <a onclick="showPage('listing')">New Arrivals</a>
+        <a onclick="showPage('listing')">Bestsellers</a>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <a onclick="showPage('profile')">My Account</a>
+        <a onclick="showPage('orders')">Track Order</a>
+        <a>Return Policy</a>
+        <a>FAQs</a>
+        <a>Contact Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a>About LitCart</a>
+        <a>Careers</a>
+        <a>Press</a>
+        <a>Privacy Policy</a>
+        <a>Terms of Service</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 LitCart. All rights reserved. Made with ♥ for book lovers.</p>
+      <div class="footer-socials">
+        <div class="social-icon">𝕏</div>
+        <div class="social-icon">f</div>
+        <div class="social-icon">in</div>
+        <div class="social-icon">📷</div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ============ PRODUCT LISTING ============ -->
+<div id="page-listing" class="page">
+  <div class="page-hero">
+    <div class="breadcrumb"><span onclick="showPage('home')">Home</span><span class="sep">›</span><span>All Books</span></div>
+    <h1>Browse Our Collection</h1>
+    <p id="listingSubtitle">Discover over 50,000 titles across every genre imaginable</p>
+  </div>
+  <div class="listing-layout">
+    <div class="filters-sidebar">
+      <div class="filter-card">
+        <div class="filter-title">Genres</div>
+        <div class="filter-option"><input type="checkbox" id="f1" value="fiction" onchange="applyFilters()"><label for="f1">Fiction</label><span>2,431</span></div>
+        <div class="filter-option"><input type="checkbox" id="f2" value="non-fiction" onchange="applyFilters()"><label for="f2">Non-Fiction</label><span>1,892</span></div>
+        <div class="filter-option"><input type="checkbox" id="f3" value="sci-fi" onchange="applyFilters()"><label for="f3">Sci-Fi</label><span>1,245</span></div>
+        <div class="filter-option"><input type="checkbox" id="f4" value="mystery" onchange="applyFilters()"><label for="f4">Mystery</label><span>992</span></div>
+        <div class="filter-option"><input type="checkbox" id="f5" value="self-help" onchange="applyFilters()"><label for="f5">Self-Help</label><span>658</span></div>
+        <div class="filter-option"><input type="checkbox" id="f6" value="biography" onchange="applyFilters()"><label for="f6">Biography</label><span>876</span></div>
+        <div class="filter-option"><input type="checkbox" id="f7" value="romance" onchange="applyFilters()"><label for="f7">Romance</label><span>1,543</span></div>
+      </div>
+      <div class="filter-card">
+        <div class="filter-title">Price Range</div>
+        <div class="price-range">
+          <input type="range" min="0" max="2000" value="2000" id="priceRange" oninput="updatePriceLabel(this.value);applyFilters()">
+          <div class="price-vals"><span>₹0</span><span id="priceMax">₹2000</span></div>
+        </div>
+      </div>
+      <div class="filter-card">
+        <div class="filter-title">Min Rating</div>
+        <div class="filter-option"><input type="radio" name="rating" value="0" id="r0" checked onchange="applyFilters()"><label for="r0">All Ratings</label></div>
+        <div class="filter-option"><input type="radio" name="rating" value="4.5" id="r45" onchange="applyFilters()"><label for="r45">★ 4.5+</label></div>
+        <div class="filter-option"><input type="radio" name="rating" value="4" id="r4" onchange="applyFilters()"><label for="r4">★ 4.0+</label></div>
+        <div class="filter-option"><input type="radio" name="rating" value="3" id="r3" onchange="applyFilters()"><label for="r3">★ 3.0+</label></div>
+      </div>
+      <button class="btn-primary" style="width:100%;justify-content:center;border-radius:12px;" onclick="clearFilters()">Clear All Filters</button>
+    </div>
+    <div>
+      <div class="listing-topbar">
+        <div class="result-count" id="resultCount">Showing <strong>0</strong> books</div>
+        <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+          <option value="relevant">Sort: Most Relevant</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="rating">Best Rated</option>
+          <option value="popular">Most Popular</option>
+        </select>
+      </div>
+      <div class="books-grid-listing" id="listingGrid"></div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-bottom" style="border-top:none;padding-top:0;">
+      <p>© 2025 LitCart. All rights reserved.</p>
+      <div class="footer-socials">
+        <div class="social-icon">𝕏</div><div class="social-icon">f</div><div class="social-icon">in</div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ============ BOOK DETAIL ============ -->
+<div id="page-detail" class="page">
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <span onclick="showPage('home')">Home</span><span class="sep">›</span>
+      <span onclick="showPage('listing')">Books</span><span class="sep">›</span>
+      <span id="detailBreadcrumb">Book Detail</span>
+    </div>
+    <h1 id="detailPageTitle">Book Detail</h1>
+  </div>
+  <div class="book-detail">
+    <div class="detail-grid">
+      <div class="detail-cover">
+        <div class="detail-cover-img">
+          <img id="detailImg" src="" alt="">
+        </div>
+        <div class="detail-actions">
+          <div class="qty-control">
+            <span class="qty-label">Qty:</span>
+            <div class="qty-btns">
+              <button class="qty-btn" onclick="changeQty(-1)">−</button>
+              <div class="qty-num" id="detailQty">1</div>
+              <button class="qty-btn" onclick="changeQty(1)">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addCurrentToCart()">🛒 Add to Cart</button>
+          <button class="btn-wishlist" id="wishlistBtn" onclick="toggleWishlist()">♡ Add to Wishlist</button>
+        </div>
+      </div>
+      <div class="detail-info">
+        <div class="detail-category" id="detailCat"></div>
+        <h1 class="detail-title" id="detailTitle"></h1>
+        <div class="detail-author" id="detailAuthor"></div>
+        <div class="detail-rating">
+          <span class="stars" id="detailStars"></span>
+          <span style="font-size:0.85rem;color:var(--text-light)" id="detailRatingText"></span>
+        </div>
+        <div class="detail-price" id="detailPrice"></div>
+        <p class="detail-desc" id="detailDesc"></p>
+        <div class="detail-meta">
+          <div class="meta-item"><div class="meta-label">Publisher</div><div class="meta-val" id="detailPub"></div></div>
+          <div class="meta-item"><div class="meta-label">Pages</div><div class="meta-val" id="detailPages"></div></div>
+          <div class="meta-item"><div class="meta-label">Language</div><div class="meta-val">English</div></div>
+          <div class="meta-item"><div class="meta-label">Format</div><div class="meta-val">Paperback</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reviews-section">
+    <div class="section-header" style="margin-bottom:2rem;">
+      <div class="section-title">Customer Reviews</div>
+    </div>
+    <div class="reviews-grid" id="detailReviews"></div>
+  </div>
+
+  <section class="section">
+    <div class="section-header"><div class="section-title">You Might Also Like</div><a class="see-all" onclick="showPage('listing')">View All →</a></div>
+    <div class="books-grid" id="similarBooks"></div>
+  </section>
+</div>
+
+<!-- ============ CART ============ -->
+<div id="page-cart" class="page">
+  <div class="page-hero">
+    <div class="breadcrumb"><span onclick="showPage('home')">Home</span><span class="sep">›</span><span>Shopping Cart</span></div>
+    <h1>Shopping Cart</h1>
+    <p id="cartHeroSubtitle">Your selected books</p>
+  </div>
+  <div class="cart-page">
+    <div class="cart-layout" id="cartLayout">
+      <div id="cartItems"></div>
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        <div class="summary-line"><span class="label">Subtotal</span><span class="val" id="sumSubtotal">₹0</span></div>
+        <div class="summary-line"><span class="label">Shipping</span><span class="val">₹49</span></div>
+        <div class="summary-line"><span class="label">Tax (5%)</span><span class="val" id="sumTax">₹0</span></div>
+        <div class="summary-line"><span class="label" style="color:var(--gold)">Discount</span><span class="val" style="color:var(--gold)" id="sumDiscount">−₹0</span></div>
+        <hr class="summary-divider">
+        <div class="summary-total"><span>Total</span><span id="sumTotal">₹0</span></div>
+        <div class="promo-input">
+          <input type="text" id="promoInput" placeholder="Promo code...">
+          <button onclick="applyPromo()">Apply</button>
+        </div>
+        <div class="promo-msg" id="promoMsg"></div>
+        <button class="place-order-btn" onclick="showPage('checkout')">Proceed to Checkout →</button>
+        <button class="btn-wishlist" style="width:100%;margin-top:0.5rem;" onclick="showPage('listing')">← Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CHECKOUT ============ -->
+<div id="page-checkout" class="page">
+  <div class="page-hero">
+    <div class="breadcrumb"><span onclick="showPage('home')">Home</span><span class="sep">›</span><span onclick="showPage('cart')">Cart</span><span class="sep">›</span><span>Checkout</span></div>
+    <h1>Checkout</h1>
+    <p>Complete your order</p>
+  </div>
+  <div class="checkout-page">
+    <div class="checkout-layout">
+      <div>
+        <div class="form-section">
+          <h3>📦 Delivery Information</h3>
+          <div class="form-row">
+            <div class="form-group"><label>First Name</label><input type="text" id="co-fname" placeholder="Rahul"></div>
+            <div class="form-group"><label>Last Name</label><input type="text" id="co-lname" placeholder="Patel"></div>
+          </div>
+          <div class="form-group"><label>Email Address</label><input type="email" id="co-email" placeholder="rahul@example.com"></div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" id="co-phone" placeholder="+91 98765 43210"></div>
+          <div class="form-group"><label>Address</label><input type="text" id="co-addr" placeholder="House / Flat No., Street Name"></div>
+          <div class="form-row">
+            <div class="form-group"><label>City</label><input type="text" id="co-city" placeholder="Surat"></div>
+            <div class="form-group"><label>State</label><select id="co-state"><option>Gujarat</option><option>Maharashtra</option><option>Rajasthan</option><option>Delhi</option><option>Karnataka</option><option>Tamil Nadu</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>PIN Code</label><input type="text" id="co-pin" placeholder="395001"></div>
+            <div class="form-group"><label>Country</label><select><option>India</option></select></div>
+          </div>
+        </div>
+        <div class="form-section">
+          <h3>💳 Payment Method</h3>
+          <div class="payment-methods">
+            <div class="payment-option selected" onclick="selectPayment(this)"><input type="radio" name="pay" checked> <label>💳 Credit / Debit Card</label></div>
+            <div class="payment-option" onclick="selectPayment(this)"><input type="radio" name="pay"> <label>🏦 Net Banking</label></div>
+            <div class="payment-option" onclick="selectPayment(this)"><input type="radio" name="pay"> <label>📱 UPI (GPay, PhonePe, Paytm)</label></div>
+            <div class="payment-option" onclick="selectPayment(this)"><input type="radio" name="pay"> <label>💵 Cash on Delivery</label></div>
+          </div>
+          <div style="margin-top:1rem;">
+            <div class="form-row">
+              <div class="form-group"><label>Card Number</label><input type="text" placeholder="1234 5678 9012 3456"></div>
+              <div class="form-group"><label>Cardholder Name</label><input type="text" placeholder="RAHUL PATEL"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Expiry Date</label><input type="text" placeholder="MM / YY"></div>
+              <div class="form-group"><label>CVV</label><input type="text" placeholder="•••"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="order-summary">
+          <h3>Order Summary</h3>
+          <div id="checkoutItems" style="margin-bottom:1rem;"></div>
+          <hr class="summary-divider">
+          <div class="summary-line"><span class="label">Subtotal</span><span class="val" id="co-subtotal">₹0</span></div>
+          <div class="summary-line"><span class="label">Shipping</span><span class="val">₹49</span></div>
+          <div class="summary-line"><span class="label">Tax (5%)</span><span class="val" id="co-tax">₹0</span></div>
+          <hr class="summary-divider">
+          <div class="summary-total"><span>Total</span><span id="co-total">₹0</span></div>
+          <button class="place-order-btn" onclick="placeOrder()">✓ Place Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SUCCESS ============ -->
+<div id="page-success" class="page">
+  <div class="success-page">
+    <div class="success-card success-card-wide">
+      <div class="success-icon">🎉</div>
+      <h2>Order Placed Successfully!</h2>
+      <p>Thank you for shopping with LitCart! Your books are being packed with love and will arrive in 3–5 business days. You'll receive a confirmation email shortly.</p>
+      <p style="margin-bottom:1.5rem;font-size:0.85rem;color:var(--text-light);">Order ID: <strong style="color:var(--brown-dark)" id="successOrderId">#LC-2025-00000</strong></p>
+      <button class="btn-primary" onclick="showPage('home')">🏠 Back to Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PROFILE ============ -->
+<div id="page-profile" class="page">
+  <div class="page-hero">
+    <div class="breadcrumb"><span onclick="showPage('home')">Home</span><span class="sep">›</span><span>My Profile</span></div>
+    <h1>My Account</h1>
+    <p>Manage your details, orders, and preferences</p>
+  </div>
+  <div class="profile-page">
+
+    <!-- Header Card -->
+    <div class="profile-header-card">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar" id="profileAvatar">R</div>
+        <div class="profile-avatar-edit" title="Change photo">✏️</div>
+      </div>
+      <div class="profile-header-info">
+        <h2 id="profileDisplayName">Rahul Patel</h2>
+        <p id="profileDisplayEmail">rahul.patel@example.com · Member since Jan 2024</p>
+        <div class="profile-badges">
+          <span class="profile-badge">📚 Book Lover</span>
+          <span class="profile-badge">⭐ Premium Member</span>
+          <span class="profile-badge">🏆 Top Reader</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="profile-stats-row">
+      <div class="profile-stat-card">
+        <div class="profile-stat-num">14</div>
+        <div class="profile-stat-label">Orders Placed</div>
+      </div>
+      <div class="profile-stat-card">
+        <div class="profile-stat-num" id="wishlistCount">0</div>
+        <div class="profile-stat-label">Wishlist Books</div>
+      </div>
+      <div class="profile-stat-card">
+        <div class="profile-stat-num">₹6,842</div>
+        <div class="profile-stat-label">Total Spent</div>
+      </div>
+      <div class="profile-stat-card">
+        <div class="profile-stat-num">48</div>
+        <div class="profile-stat-label">Books Read</div>
+      </div>
+    </div>
+
+    <div class="profile-grid">
+
+      <!-- Personal Info -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">👤 Personal Information</div>
+        <div class="profile-field">
+          <label>Full Name</label>
+          <input type="text" class="profile-field" id="pf-name" value="Rahul Patel" style="width:100%;background:var(--cream);border:1.5px solid var(--beige-dark);border-radius:10px;padding:0.65rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;">
+        </div>
+        <div class="profile-field">
+          <label>Date of Birth</label>
+          <input type="date" id="pf-dob" value="1995-03-15" style="width:100%;background:var(--cream);border:1.5px solid var(--beige-dark);border-radius:10px;padding:0.65rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;">
+        </div>
+        <div class="profile-field">
+          <label>Gender</label>
+          <select id="pf-gender" style="width:100%;background:var(--cream);border:1.5px solid var(--beige-dark);border-radius:10px;padding:0.65rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;">
+            <option>Male</option><option>Female</option><option>Non-binary</option><option>Prefer not to say</option>
+          </select>
+        </div>
+        <button class="profile-save-btn" onclick="savePersonalInfo()">Save Changes</button>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">📞 Contact Details</div>
+        <div class="profile-field">
+          <label>Email Address</label>
+          <input type="email" id="pf-email" value="rahul.patel@example.com" style="width:100%;background:var(--cream);border:1.5px solid var(--beige-dark);border-radius:10px;padding:0.65rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;">
+        </div>
+        <div class="profile-field">
+          <label>Phone Number</label>
+          <input type="tel" id="pf-phone" value="+91 98765 43210" style="width:100%;background:var(--cream);border:1.5px solid var(--beige-dark);border-radius:10px;padding:0.65rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;">
+        </div>
+        <div class="profile-field">
+          <label>Alternate Phone</label>
+          <input type="tel" id="pf-altphone" placeholder="+91 00000 00000" style="width:100%;background:var(--cream);border:1.5px solid var(--beige-dark);border-radius:10px;padding:0.65rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;">
+        </div>
+        <button class="profile-save-btn" onclick="saveContact()">Save Changes</button>
+      </div>
+
+      <!-- Saved Addresses -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">📍 Saved Addresses</div>
+        <div class="address-card default">
+          <span class="address-default-tag">Default</span>
+          <p><strong>Rahul Patel</strong><br>
+          42, Sunshine Apartments, Ring Road<br>
+          Surat, Gujarat – 395001<br>
+          📞 +91 98765 43210</p>
+        </div>
+        <div class="address-card">
+          <p><strong>Office</strong><br>
+          301, Tech Hub, Athwa Lines<br>
+          Surat, Gujarat – 395007<br>
+          📞 +91 98765 43210</p>
+        </div>
+        <button class="profile-save-btn" style="margin-top:0.5rem;">+ Add New Address</button>
+      </div>
+
+      <!-- Notifications -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">🔔 Notification Preferences</div>
+        <div class="toggle-row">
+          <div class="toggle-label">Order Updates<small>Get notified about your deliveries</small></div>
+          <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-label">New Arrivals<small>Be first to know about new books</small></div>
+          <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-label">Deals & Offers<small>Exclusive discounts and promotions</small></div>
+          <button class="toggle" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-label">Newsletter<small>Weekly curated reading picks</small></div>
+          <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-label">SMS Alerts<small>Order and delivery alerts via SMS</small></div>
+          <button class="toggle" onclick="this.classList.toggle('on')"></button>
+        </div>
+      </div>
+
+      <!-- Order History -->
+      <div class="profile-section-card full-width">
+        <div class="profile-section-title">📦 Order History</div>
+        <div class="order-row">
+          <span class="order-id">#LC-2025-78432</span>
+          <span class="order-date">April 12, 2025</span>
+          <span class="order-status delivered">Delivered</span>
+          <span class="order-amt">₹1,248</span>
+        </div>
+        <div class="order-row">
+          <span class="order-id">#LC-2025-71204</span>
+          <span class="order-date">March 28, 2025</span>
+          <span class="order-status processing">Processing</span>
+          <span class="order-amt">₹699</span>
+        </div>
+        <div class="order-row">
+          <span class="order-id">#LC-2025-63891</span>
+          <span class="order-date">March 5, 2025</span>
+          <span class="order-status delivered">Delivered</span>
+          <span class="order-amt">₹548</span>
+        </div>
+        <div class="order-row">
+          <span class="order-id">#LC-2025-59012</span>
+          <span class="order-date">Feb 17, 2025</span>
+          <span class="order-status pending">Pending</span>
+          <span class="order-amt">₹399</span>
+        </div>
+        <div class="order-row">
+          <span class="order-id">#LC-2025-44231</span>
+          <span class="order-date">Jan 30, 2025</span>
+          <span class="order-status delivered">Delivered</span>
+          <span class="order-amt">₹948</span>
+        </div>
+      </div>
+
+      <!-- Wishlist -->
+      <div class="profile-section-card full-width">
+        <div class="profile-section-title">❤️ My Wishlist <span style="font-size:0.85rem;font-weight:400;color:var(--text-light);font-family:'DM Sans',sans-serif;" id="wishlistSubtitle"></span></div>
+        <div class="wishlist-grid" id="wishlistGrid">
+          <div style="color:var(--text-light);font-size:0.9rem;padding:1rem 0;">No books in your wishlist yet. Browse and add some!</div>
+        </div>
+      </div>
+
+      <!-- Security -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">🔒 Security</div>
+        <div class="profile-field">
+          <label>Current Password</label>
+          <input type="password" placeholder="••••••••" style="width:100%;background:var(--cream);border:1.5px solid var(--beige-dark);border-radius:10px;padding:0.65rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;">
+        </div>
+        <div class="profile-field">
+          <label>New Password</label>
+          <input type="password" placeholder="••••••••" style="width:100%;background:var(--cream);border:1.5px solid var(--beige-dark);border-radius:10px;padding:0.65rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;">
+        </div>
+        <div class="profile-field">
+          <label>Confirm New Password</label>
+          <input type="password" placeholder="••••••••" style="width:100%;background:var(--cream);border:1.5px solid var(--beige-dark);border-radius:10px;padding:0.65rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;">
+        </div>
+        <button class="profile-save-btn" onclick="showToast('🔒 Password updated successfully!')">Update Password</button>
+        <button class="profile-danger-btn" onclick="if(confirm('Are you sure you want to delete your account? This cannot be undone.')) showToast('Account deletion request submitted.')">Delete Account</button>
+      </div>
+
+      <!-- Reading Preferences -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">📖 Reading Preferences</div>
+        <div class="profile-field">
+          <label>Favourite Genres</label>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.3rem;">
+            <span onclick="this.classList.toggle('active-pref')" style="padding:0.3rem 0.9rem;border-radius:20px;border:1.5px solid var(--beige-dark);font-size:0.82rem;cursor:pointer;transition:var(--transition);" class="active-pref">Fiction</span>
+            <span onclick="this.classList.toggle('active-pref')" style="padding:0.3rem 0.9rem;border-radius:20px;border:1.5px solid var(--beige-dark);font-size:0.82rem;cursor:pointer;transition:var(--transition);">Mystery</span>
+            <span onclick="this.classList.toggle('active-pref')" style="padding:0.3rem 0.9rem;border-radius:20px;border:1.5px solid var(--beige-dark);font-size:0.82rem;cursor:pointer;transition:var(--transition);" class="active-pref">Self-Help</span>
+            <span onclick="this.classList.toggle('active-pref')" style="padding:0.3rem 0.9rem;border-radius:20px;border:1.5px solid var(--beige-dark);font-size:0.82rem;cursor:pointer;transition:var(--transition);">Sci-Fi</span>
+            <span onclick="this.classList.toggle('active-pref')" style="padding:0.3rem 0.9rem;border-radius:20px;border:1.5px solid var(--beige-dark);font-size:0.82rem;cursor:pointer;transition:var(--transition);">Biography</span>
+            <span onclick="this.classList.toggle('active-pref')" style="padding:0.3rem 0.9rem;border-radius:20px;border:1.5px solid var(--beige-dark);font-size:0.82rem;cursor:pointer;transition:var(--transition);">History</span>
+          </div>
+        </div>
+        <div class="profile-field" style="margin-top:1rem;">
+          <label>Reading Goal (books/year)</label>
+          <input type="number" value="24" min="1" max="365" style="width:100%;background:var(--cream);border:1.5px solid var(--beige-dark);border-radius:10px;padding:0.65rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;">
+        </div>
+        <div class="profile-field">
+          <label>Preferred Language</label>
+          <select style="width:100%;background:var(--cream);border:1.5px solid var(--beige-dark);border-radius:10px;padding:0.65rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;">
+            <option>English</option><option>Hindi</option><option>Gujarati</option><option>Marathi</option>
+          </select>
+        </div>
+        <button class="profile-save-btn" onclick="showToast('📖 Preferences saved!')">Save Preferences</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span id="toastMsg">Added to cart!</span>
+</div>
+
+<style>
+.active-pref { background: rgba(201,168,76,0.15) !important; border-color: var(--gold) !important; color: var(--brown-dark); font-weight:600; }
+</style>
+
+<script src="js/main.js"></script>
+</body>
+</html>

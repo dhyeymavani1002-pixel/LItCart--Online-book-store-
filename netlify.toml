@@ -1,0 +1,9 @@
+[build]
+base = "Frontend/angular-litcart"
+command = "npm run build"
+publish = "dist/angular-litcart"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
